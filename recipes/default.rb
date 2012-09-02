@@ -5,14 +5,8 @@
 # Copyright 2012, ttree ltd
 #
 
-# Update Apt package index
-execute "update package index" do
-  command "apt-get update"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
-
 # Install required package
+include_recipe 'apt'
 %w{openssl libssl-dev locales-all zip unzip}.each do |pkg|
   package pkg do
     action :install
