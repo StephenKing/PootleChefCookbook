@@ -19,3 +19,15 @@ default['pootle']['TER_l10n_root'] = '/var/www/vhosts/pootle.typo3.org/l10n_ter'
 default['pootle']['TER_l10n_user'] = 'translat3o'
 default['pootle']['TER_l10n_group'] = 'translat3o'
 default['pootle']['TER_l10n_homedir'] = '/home/translat3o'
+
+default['pootle']['DEFAULT_FROM_EMAIL'] = 'translation-team@typo3.org'
+default['pootle']['CONTACT_EMAIL'] = 'translation-team@typo3.org'
+
+default['pootle']['EMAIL_HOST_USER'] = 'typo3pootle@gmail.com'
+default['pootle']['EMAIL_HOST_PASSWORD'] = 'jDZ99ZxgksBYnRNXv'
+default['pootle']['EMAIL_SMTP'] = 'smtp.gmail.com'
+default['pootle']['EMAIL_PORT'] = '587'
+default['pootle']['EMAIL_USE_TLS'] = 'True'
+
+default['pootle']['DATABASE_HOST'] = 'localhost'
+default['pootle']['DATABASE_PORT'] = '3306'
