@@ -46,6 +46,9 @@ include_recipe "pootle::python"
 # Install Django
 include_recipe "pootle::django"
 
+# Install mysql python
+include_recipe "pootle::mysql-python"
+
 # Install translation toolkits
 include_recipe "pootle::translation_toolkit"
 
