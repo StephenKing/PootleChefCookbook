@@ -14,7 +14,7 @@ python_virtualenv venv_dir do
     action :create
 end
 
-%w{python-software-properties python-lxml python-levenshtein python-memcache}.each do |pkg|
+%w{python-software-properties}.each do |pkg|
   package pkg do
     action :install
   end
@@ -47,6 +47,24 @@ end
 
 # Install CSS min
 python_pip "cssmin" do
+    action :install
+    virtualenv venv_dir
+end
+
+# Install Lxml
+python_pip "lxml" do
+    action :install
+    virtualenv venv_dir
+end
+
+# Install Levenshtein
+python_pip "levenshtein" do
+    action :install
+    virtualenv venv_dir
+end
+
+# Install Levenshtein
+python_pip "memcache" do
     action :install
     virtualenv venv_dir
 end

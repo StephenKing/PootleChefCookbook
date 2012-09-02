@@ -1,7 +1,8 @@
-default['pootle']['virtualenv_dir'] = 'pootle'
+default['pootle']['virtualenv_dir'] = '/usr/local/pootle'
 
 default['pootle']['db_user'] = 't3o_translation'
 default['pootle']['db_name'] = 't3o_pootle'
+default['pootle']['db_password'] = 'passw0rd'
 
 default['pootle']['server_name'] = 'translation.typo3.org'
 default['pootle']['docroot'] = '/var/www/vhosts/pootle.typo3.org/pootle/html/'

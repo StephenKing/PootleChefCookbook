@@ -58,10 +58,7 @@ package "iso-codes"
 
 # Deploy Pootle GIT repository
 directory node['pootle']['pootle_root'] do
-  owner "root"
-  group "root"
   mode "0755"
-  action :create
   recursive true
 end
 
@@ -71,13 +68,17 @@ git "pootle" do
   reference "master"
 end
 
+directory node['pootle']['pootle_po_root'] do
+  owner "pootle"
+  group "pootle"
+  mode "0755"
+  recursive true
+end
+
 template node['pootle']['pootle_root'] + "/localsettings.py" do
   notifies :reload, "service[apache2]"
   source "localsettings.py.erb"
-  owner "root"
-  group "root"
   mode "0644"
-  action :create
 end
 
 # Todo Deploy Pootle utility scripts

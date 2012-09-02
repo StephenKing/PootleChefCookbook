@@ -23,7 +23,9 @@
 		Options +Indexes
 	</Directory>
 
-	WSGIDaemonProcess <%= @params[:server_name] %> user=<%= @params[:user] %> group=<%= @params[:group] %> processes=2 threads=1 display-name=<%= @params[:server_name] %>
+	WSGIDaemonProcess <%= @params[:server_name] %> user=<%= @params[:user] %> group=<%= @params[:group] %> threads=25 display-name=<%= @params[:server_name] %>
+	WSGIProcessGroup <%= @params[:server_name] %>
+	
 	WSGIScriptAlias / <%= @params[:pootle_root] %>/wsgi.py
 	LogLevel debug
 
