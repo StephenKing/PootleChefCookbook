@@ -29,5 +29,6 @@ end
 
 # Disable default vhosts
 apache_site "default" do
+  notifies :reload, "service[apache2]"
   enable false
 end

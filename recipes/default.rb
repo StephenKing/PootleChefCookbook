@@ -87,6 +87,7 @@ execute "clone pootle repository" do
 end.run_action(:run)
 
 template node['pootle']['pootle_root'] + "/localsettings.py" do
+  notifies :reload, "service[apache2]"
   source "localsettings.py.erb"
   owner "root"
   group "root"
