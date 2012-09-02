@@ -7,6 +7,7 @@
 
 # https://www.djangoproject.com/download/1.3.3/tarball/
 remote_file "/usr/local/src/Django-1.3.3.tar.gz" do
+  notifies :run, "bash[install django]"
   source "https://www.djangoproject.com/download/1.3.3/tarball/"
   action :create_if_missing
 end
@@ -19,4 +20,5 @@ bash "install django" do
     cd Django-1.3.3
     python setup.py install
   EOH
+  action :nothing
 end
