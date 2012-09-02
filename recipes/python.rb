@@ -5,7 +5,14 @@
 # Copyright 2012, ttree ltd
 #
 
+venv_dir = node['pootle']['virtualenv_dir']
+
 include_recipe 'python'
+
+python_virtualenv venv_dir do
+    interpreter "python"
+    action :create
+end
 
 %w{python-software-properties python-lxml python-levenshtein python-memcache}.each do |pkg|
   package pkg do
@@ -13,30 +20,33 @@ include_recipe 'python'
   end
 end
 
+# Install Django
+python_pip "django" do
+    version "1.3.3"
+    action :install
+    virtualenv venv_dir
+end
+
 # Install South
-execute "pip install south" do
-  command "pip install south"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+python_pip "south" do
+    action :install
+    virtualenv venv_dir
+end
 
 # Install Django Voting
-execute "pip install django-voting" do
-  command "pip install django-voting"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+python_pip "django-voting" do
+    action :install
+    virtualenv venv_dir
+end
 
 # Install Django Web Assets
-execute "pip install webassets" do
-  command "pip install webassets"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+python_pip "webassets" do
+    action :install
+    virtualenv venv_dir
+end
 
 # Install CSS min
-execute "pip install cssmin" do
-  command "pip install cssmin"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+python_pip "cssmin" do
+    action :install
+    virtualenv venv_dir
+end

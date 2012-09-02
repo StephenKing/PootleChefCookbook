@@ -1,3 +1,5 @@
+default['pootle']['virtualenv_dir'] = 'pootle'
+
 default['pootle']['db_user'] = 't3o_translation'
 default['pootle']['db_name'] = 't3o_pootle'
 
