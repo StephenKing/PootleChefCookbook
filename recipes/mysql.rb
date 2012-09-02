@@ -5,11 +5,21 @@
 # Copyright 2012, ttree ltd
 #
 
+mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
+
 include_recipe "mysql::server"
 
 mysql_database 't3o_pootle' do
-  connection ({:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']})
+  connection mysql_connection_info
   action :create
+end
+
+mysql_database_user node['pootle']['db_user'] do
+  connection mysql_connection_info
+  password node['pootle']['db_password']
+  database_name node['pootle']['db_name']
+  privileges [:select,:update,:insert,:delete]
+  action :grant
 end
 
 template "/root/.my.cnf" do
