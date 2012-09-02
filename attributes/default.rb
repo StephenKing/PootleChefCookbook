@@ -27,7 +27,7 @@ default['pootle']['CONTACT_EMAIL'] = 'translation-team@typo3.org'
 
 default['pootle']['EMAIL_HOST_USER'] = 'typo3pootle@gmail.com'
 default['pootle']['EMAIL_HOST_PASSWORD'] = 'jDZ99ZxgksBYnRNXv'
-default['pootle']['EMAIL_SMTP'] = 'smtp.gmail.com'
+default['pootle']['EMAIL_HOST'] = 'smtp.gmail.com'
 default['pootle']['EMAIL_PORT'] = '587'
 default['pootle']['EMAIL_USE_TLS'] = 'True'
 
