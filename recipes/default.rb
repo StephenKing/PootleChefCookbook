@@ -18,19 +18,14 @@ include_recipe 'git'
 
 # Add pootle user and group
 user node['pootle']['pootle_user'] do
-  action :create
   system true  
   home node['pootle']['pootle_homedir']
-  manage_home true
-  shell "/bin/zsh"
+  manage_home false
 end
 
 # Create home direction
 directory node['pootle']['pootle_homedir'] do
-  owner "root"
-  group "root"
   mode "0755"
-  action :create
   recursive true
 end
 
@@ -42,9 +37,6 @@ include_recipe "pootle::webserver"
 
 # Install Python
 include_recipe "pootle::python"
-
-# Install Django
-include_recipe "pootle::django"
 
 # Install mysql python
 include_recipe "pootle::mysql-python"

@@ -8,8 +8,7 @@
 user node['pootle']['TER_l10n_user'] do
   system true 
   home node['pootle']['TER_l10n_homedir']
-  manage_home true
-  shell "/bin/zsh"
+  manage_home false
 end
 
 # Create home direction
