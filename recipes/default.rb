@@ -7,7 +7,7 @@
 
 # Install required package
 include_recipe 'apt'
-%w{openssl libssl-dev locales-all zip unzip}.each do |pkg|
+%w{openssl libssl-dev locales-all zip unzip libxslt1-dev libxslt1.1}.each do |pkg|
   package pkg do
     action :install
   end
@@ -37,12 +37,6 @@ include_recipe "pootle::webserver"
 
 # Install Python
 include_recipe "pootle::python"
-
-# Install mysql python
-include_recipe "pootle::mysql-python"
-
-# Install translation toolkits
-include_recipe "pootle::translation_toolkit"
 
 # Install MySQL
 include_recipe "pootle::mysql"
