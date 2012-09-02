@@ -80,11 +80,11 @@ directory node['pootle']['pootle_root'] do
   recursive true
 end
 
-execute "clone pootle repository" do
-  command "git clone " + node['pootle']['pootle_git'] + " " + node['pootle']['pootle_root'] + " || cd " + node['pootle']['pootle_root'] + " && git pull"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+git "pootle" do
+  repository node['pootle']['pootle_git']
+  destination node['pootle']['pootle_root']
+  reference "master"
+end
 
 template node['pootle']['pootle_root'] + "/localsettings.py" do
   notifies :reload, "service[apache2]"
