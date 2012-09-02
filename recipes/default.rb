@@ -13,17 +13,13 @@ execute "update package index" do
 end.run_action(:run)
 
 # Install required package
-%w{openssl libssl-dev locales-all zsh rubygems ruby ruby-dev postfix vim htop dstat zip unzip}.each do |pkg|
+%w{openssl libssl-dev locales-all zip unzip}.each do |pkg|
   package pkg do
     action :install
   end
 end
 
 include_recipe 'build-essential'
-
-# Purge unused package
-%w( portmap rpcbind nfs-common ).each {|p| package(p) { action :purge } }
-
 include_recipe 'git'
 
 # Add pootle user and group
