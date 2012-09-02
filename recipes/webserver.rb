@@ -26,3 +26,8 @@ web_app app_name do
 
   log_dir node['apache']['log_dir'] 
 end
+
+# Disable default vhosts
+apache_site "default" do
+  enable false
+end

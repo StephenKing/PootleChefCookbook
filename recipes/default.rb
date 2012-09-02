@@ -86,14 +86,13 @@ execute "clone pootle repository" do
   action :nothing
 end.run_action(:run)
 
-# Todo Deploy Pootle utility scripts
-
-# Restart Apache
-bash "restart apache" do
-  cwd Chef::Config[:file_cache_path]
-  code <<-EOH
-    a2dissite default
-    /etc/init.d/apache2 restart
-  EOH
+template node['pootle']['pootle_root'] + "/localsettings.py" do
+  source "localsettings.py.erb"
+  owner "root"
+  group "root"
+  mode "0644"
+  action :create
 end
+
+# Todo Deploy Pootle utility scripts
 
