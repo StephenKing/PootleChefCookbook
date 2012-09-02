@@ -1,0 +1,32 @@
+<VirtualHost *:80>
+	ServerName <%= @params[:server_name] %>
+
+	DocumentRoot <%= @params[:docroot] %>
+	DirectoryIndex index.html
+
+	RewriteEngine on
+
+	<Directory <%= @params[:docroot] %>>
+		Options -ExecCGI -Indexes
+		Order allow,deny
+		Allow from all
+		AllowOverride None
+	</Directory>
+
+	Alias /typo3conf/l10n_ter <%= @params[:TER_l10n_root] %>
+	Alias /l10n_ter <%= @params[:TER_l10n_root] %>
+	Alias /_h5ai /var/www/h5ai/_h5ai
+
+	Redirect /accounts/login http://typo3.org/login/translation
+
+	<Directory <%= @params[:TER_l10n_root] %>>
+		Options +Indexes
+	</Directory>
+
+	WSGIDaemonProcess <%= @params[:server_name] %> user=<%= @params[:user] %> group=<%= @params[:group] %> processes=2 threads=1 display-name=<%= @params[:server_name] %>
+	WSGIScriptAlias / <%= @params[:pootle_root] %>/wsgi.py
+	LogLevel debug
+
+	ErrorLog <%= @node[:apache][:log_dir] %>/<%= @params[:server_name] %>-error.log
+	CustomLog <%= @node[:apache][:log_dir] %>/<%= @params[:server_name] %>-access.log combined
+</VirtualHost>
