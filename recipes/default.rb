@@ -5,6 +5,8 @@
 # Copyright 2012, ttree ltd
 #
 
+include_recipe 'hostname'
+
 include_recipe 'apt'
 
 # Add dotdeb repository

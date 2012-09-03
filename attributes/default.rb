@@ -1,3 +1,4 @@
+default['set_fqdn'] = 'translation.typo3.org'
 
 default['pootle']['db_user'] = 't3o_translation'
 default['pootle']['db_name'] = 't3o_pootle'
