@@ -63,3 +63,8 @@ end
 python_pip "MySQL-python" do
     action :install
 end
+
+# Install M2Crypto
+python_pip "M2Crypto" do
+    action :install
+end
