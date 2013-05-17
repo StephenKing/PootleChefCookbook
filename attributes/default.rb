@@ -35,5 +35,5 @@ default['pootle']['EMAIL_USE_TLS'] = 'True'
 default['pootle']['DATABASE_HOST'] = 'localhost'
 default['pootle']['DATABASE_PORT'] = '3306'
 
-override['mysql']['package'] = %w{mysql-server-5.5}
-override['mysql']['client']['packages'] = %w{mysql-client-5.5 libmysqlclient-dev}
+override['mysql']['package'] = %w{mysql-server}
+override['mysql']['client']['packages'] = %w{mysql-client libmysqlclient-dev}
