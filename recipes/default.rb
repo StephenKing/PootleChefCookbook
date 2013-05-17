@@ -26,10 +26,15 @@ execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
 end
 
 # Install required package
-%w{openssl libssl-dev locales-all zip unzip libxslt1-dev libxslt1.1 swig}.each do |pkg|
+%w{openssl libssl-dev locales-all zip unzip libxslt1-dev libxslt1.1 swig aspell}.each do |pkg|
   package pkg do
     action :install
   end
+end
+
+# Install Aspell dictionnary
+execute "aptitude search aspell | awk '{print $2}' | grep ^aspell- | grep -v dictionary |  xargs apt-get -y install" do
+  action :nothing
 end
 
 include_recipe 'build-essential'
