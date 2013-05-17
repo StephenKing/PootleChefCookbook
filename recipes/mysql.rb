@@ -5,10 +5,10 @@
 # Copyright 2012, ttree ltd
 #
 
-mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
-
 include_recipe "mysql::server"
 include_recipe "database::mysql"
+
+mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
 
 mysql_database 't3o_pootle' do
   connection mysql_connection_info
