@@ -26,7 +26,7 @@ execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
 end
 
 # Install required package
-%w{openssl libssl-dev locales-all zip unzip libxslt1-dev libxslt1.1 swig aspell}.each do |pkg|
+%w{openssl libssl-dev locales-all zip unzip libxslt1-dev libxslt1.1 swig aspell python-lucene}.each do |pkg|
   package pkg do
     action :install
   end
@@ -72,9 +72,6 @@ end
 
 # Install Python
 include_recipe "pootle::python"
-
-# Install Pylucene
-# Todo include_recipe "pootle::pylucene"
 
 # Install ISO Codes
 package "iso-codes"
