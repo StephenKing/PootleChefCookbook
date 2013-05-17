@@ -7,12 +7,6 @@
 
 include_recipe 'hostname'
 
-include_recipe 'apt'
-
-execute "apt-get update" do
-  action :nothing
-end
-
 # Add dotdeb repository
 template "/etc/apt/sources.list.d/dotdeb.list" do
   owner "root"
@@ -23,6 +17,12 @@ end
  
 execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
   not_if "apt-key export 'Dotdeb'"
+end
+
+include_recipe 'apt'
+
+execute "apt-get update" do
+  action :nothing
 end
 
 # Install required package
