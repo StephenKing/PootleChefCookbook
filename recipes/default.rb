@@ -7,13 +7,13 @@
 
 include_recipe 'hostname'
 
-# Add dotdeb repository
 include_recipe 'apt'
 
 execute "apt-get update" do
   action :nothing
 end
- 
+
+# Add dotdeb repository
 template "/etc/apt/sources.list.d/dotdeb.list" do
   owner "root"
   mode "0644"
