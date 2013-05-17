@@ -49,10 +49,6 @@ directory node['pootle']['pootle_homedir'] do
   recursive true
 end
 
-service "memcached" do
-  action :enable
-end
-
 # Add user used by TER server
 include_recipe "pootle::ter"
 
@@ -64,6 +60,10 @@ include_recipe "pootle::mysql"
 
 # Install Memcached
 include_recipe 'memcached'
+
+service "memcached" do
+  action :enable
+end
 
 # Install Python
 include_recipe "pootle::python"
