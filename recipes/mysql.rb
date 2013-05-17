@@ -8,12 +8,7 @@
 mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
 
 include_recipe "mysql::server"
-
-execute "gem install mysql" do
-  command "gem install mysql"
-  ignore_failure false
-  action :nothing
-end.run_action(:run)
+include_recipe "database::mysql"
 
 mysql_database 't3o_pootle' do
   connection mysql_connection_info
@@ -35,4 +30,8 @@ template "/root/.my.cnf" do
   group "root"
   mode "0600"
   action :create
+end
+
+service "mysql" do
+  action :enable
 end

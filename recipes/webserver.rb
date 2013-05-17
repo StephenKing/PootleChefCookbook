@@ -32,3 +32,7 @@ apache_site "default" do
   notifies :reload, "service[apache2]"
   enable false
 end
+
+service "apache2" do
+  action :enable
+end

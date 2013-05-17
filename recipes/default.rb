@@ -7,29 +7,22 @@
 
 include_recipe 'hostname'
 
+# Add dotdeb repository
 include_recipe 'apt'
 
-# Add dotdeb repository
-apt_repository "dotdeb" do
-  uri "http://ftp.hosteurope.de/mirror/packages.dotdeb.org/"
-  distribution "squeeze"
-  components ["all"]
-  #key "http://www.dotdeb.org/dotdeb.gpg"
+execute "apt-get update" do
+  action :nothing
 end
-
-# Workaround: because enabling key on apt_repository don't work
+ 
+template "/etc/apt/sources.list.d/dotdeb.list" do
+  owner "root"
+  mode "0644"
+  source "dotdeb.list.erb"
+  notifies :run, resources("execute[apt-get update]"), :immediately
+end
+ 
 execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
   not_if "apt-key export 'Dotdeb'"
-  notifies :run, "execute[apt-get update]"
-end
-
-bash "import dotdeb key" do
-  cwd Chef::Config[:file_cache_path]
-  code <<-EOH
-    wget http://www.dotdeb.org/dotdeb.gpg
-    cat dotdeb.gpg | apt-key add -
-  EOH
-  action :nothing
 end
 
 # Install required package
@@ -40,6 +33,7 @@ end
 end
 
 include_recipe 'build-essential'
+
 include_recipe 'git'
 
 # Add pootle user and group
@@ -55,17 +49,21 @@ directory node['pootle']['pootle_homedir'] do
   recursive true
 end
 
-# Install MySQL
-include_recipe "pootle::mysql"
-
-# Install Memcached
-include_recipe 'memcached'
+service "memcached" do
+  action :enable
+end
 
 # Add user used by TER server
 include_recipe "pootle::ter"
 
 # Prepare webserver
 include_recipe "pootle::webserver"
+
+# Install MySQL
+include_recipe "pootle::mysql"
+
+# Install Memcached
+include_recipe 'memcached'
 
 # Install Python
 include_recipe "pootle::python"
