@@ -1,7 +1,11 @@
+# I guess that's used by the "hostname" cookbooks. Please don't do this for typo3.org infrastructure
 default['set_fqdn'] = 'translation.typo3.org'
 
 default['pootle']['db_user'] = 't3o_translation'
 default['pootle']['db_name'] = 't3o_pootle'
+
+# you might want to dynamically generate the password instead,
+# see https://github.com/TYPO3-cookbooks/etherpad-lite/blob/master/recipes/default.rb#L108
 default['pootle']['db_password'] = 'passw0rd'
 
 default['pootle']['server_name'] = 'translation.typo3.org'
@@ -26,6 +30,7 @@ default['pootle']['TER_l10n_homedir'] = '/home/translat3o'
 default['pootle']['DEFAULT_FROM_EMAIL'] = 'translation-team@typo3.org'
 default['pootle']['CONTACT_EMAIL'] = 'translation-team@typo3.org'
 
+# you can use localhost in typo3.org infrastructure
 default['pootle']['EMAIL_HOST_USER'] = 'typo3pootle@gmail.com'
 default['pootle']['EMAIL_HOST_PASSWORD'] = 'jDZ99ZxgksBYnRNXv'
 default['pootle']['EMAIL_HOST'] = 'smtp.gmail.com'
