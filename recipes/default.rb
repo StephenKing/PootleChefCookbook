@@ -5,17 +5,21 @@
 # Copyright 2012, ttree ltd
 #
 
-include_recipe 'hostname'
+# include_recipe 'hostname'
 include_recipe 'apt'
+include_recipe 'build-essential'
+include_recipe 'git'
+
 
 # Add dotdeb repository
+# use the apt_repository LWRP instead (but the template is still empty..?)
 template "/etc/apt/sources.list.d/dotdeb.list" do
   owner "root"
   mode "0644"
   source "dotdeb.list.erb"
   notifies :run, resources("execute[apt-get update]"), :immediately
 end
- 
+
 execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
   not_if "apt-key export 'Dotdeb'"
 end
@@ -31,26 +35,20 @@ end
   locales-all
   zip
   unzip
+  # better don't hardcode the exact version, I guess that's not even Debian squeeze + wheezy compatible
   ruby1.9.1-full
   libxslt1-dev
   swig
   aspell
 }.each do |pkg|
-
-  r = package pkg do
-    action :install
-  end
-  r.run_action(:install)
+   package pkg
 end
 
 # Install Aspell dictionnary
+# so this can be thrown away because of action :nothing?
 execute "aptitude search aspell | awk '{print $2}' | grep ^aspell- | grep -v dictionary |  xargs apt-get -y install" do
   action :nothing
 end
-
-include_recipe 'build-essential'
-
-include_recipe 'git'
 
 # Add pootle user and group
 user node['pootle']['pootle_user'] do
@@ -59,7 +57,7 @@ user node['pootle']['pootle_user'] do
   manage_home false
 end
 
-# Create home direction
+# Create home directory
 directory node['pootle']['pootle_homedir'] do
   mode "0755"
   recursive true
@@ -97,6 +95,7 @@ git "pootle" do
   repository node['pootle']['pootle_git']
   destination node['pootle']['pootle_root']
   reference "master"
+  user node['pootle']['pootle_user']
 end
 
 # Todo Set correct permissions in pootle directory
