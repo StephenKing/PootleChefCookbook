@@ -10,6 +10,7 @@ include_recipe "database::mysql"
 
 mysql_connection_info = {:host => "localhost", :username => 'root', :password => node['mysql']['server_root_password']}
 
+# make the db name an attribute?
 mysql_database 't3o_pootle' do
   connection mysql_connection_info
   encoding "utf8"
@@ -24,6 +25,7 @@ mysql_database_user node['pootle']['db_user'] do
   action :grant
 end
 
+# please exclude this from an application cookbook
 template "/root/.my.cnf" do
   source "my.cnf.erb"
   owner "root"
