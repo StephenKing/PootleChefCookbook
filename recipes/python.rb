@@ -1,6 +1,6 @@
 #
 # Cookbook Name:: pootle
-# Recipe:: webserver
+# Recipe:: python
 #
 # Copyright 2012, ttree ltd
 #
