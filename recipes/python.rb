@@ -7,75 +7,32 @@
 
 include_recipe 'python'
 
-%w{python-software-properties}.each do |pkg|
-  package pkg do
-    action :install
-  end
-end
-
-# Install required package
-%w{python-lucene python-m2crypto}.each do |pkg|
-  package pkg do
-    action :install
-  end
+%w{
+  python-software-properties
+  python-lucene
+  python-m2crypto
+}.each do |pkg|
+  package pkg
 end
 
 # Install Django
 python_pip "django" do
   version "1.3.7"
-  action :install
 end
 
 # Install South
-python_pip "south" do
-    action :install
-end
-
-python_pip "django-tastypie" do
-  action :install
-end
-
-# Install Django Voting
-python_pip "django-voting" do
-    action :install
-end
-
-# Install Django Web Assets
-python_pip "webassets" do
-    action :install
-end
-
-# Install Django Web Assets
-python_pip "django-assets" do
-    action :install
-end
-
-# Install CSS min
-python_pip "cssmin" do
-    action :install
-end
-
-# Install Lxml
-python_pip "lxml" do
-    action :install
-end
-
-# Install Levenshtein
-python_pip "python-Levenshtein" do
-    action :install
-end
-
-# Install Levenshtein
-python_pip "python-memcached" do
-    action :install
-end
-
-# Install Levenshtein
-python_pip "translate-toolkit" do
-    action :install
-end
-
-# Install MySQL Python
-python_pip "MySQL-python" do
-    action :install
+%w{
+  south
+  django-tastypie
+  django-voting
+  webassets
+  django-assets
+  cssmin
+  lxml
+  python-Levenshtein
+  python-memcached
+  translate-toolkit
+  MySQL-python
+}.each do |pgk|
+  python_pip pkg
 end
