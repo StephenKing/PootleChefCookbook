@@ -13,15 +13,26 @@ include_recipe 'python'
   end
 end
 
+# Install required package
+%w{python-lucene python-m2crypto}.each do |pkg|
+  package pkg do
+    action :install
+  end
+end
+
 # Install Django
 python_pip "django" do
-    version "1.3.7"
-    action :install
+  version "1.3.7"
+  action :install
 end
 
 # Install South
 python_pip "south" do
     action :install
+end
+
+python_pip "django-tastypie" do
+  action :install
 end
 
 # Install Django Voting
@@ -31,6 +42,11 @@ end
 
 # Install Django Web Assets
 python_pip "webassets" do
+    action :install
+end
+
+# Install Django Web Assets
+python_pip "django-assets" do
     action :install
 end
 
@@ -61,10 +77,5 @@ end
 
 # Install MySQL Python
 python_pip "MySQL-python" do
-    action :install
-end
-
-# Install M2Crypto
-python_pip "M2Crypto" do
     action :install
 end

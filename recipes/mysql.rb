@@ -32,6 +32,8 @@ template "/root/.my.cnf" do
   action :create
 end
 
+# Todo Tune MySQL server configuration
+
 service "mysql" do
   action :enable
 end

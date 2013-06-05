@@ -6,6 +6,7 @@
 #
 
 include_recipe 'hostname'
+include_recipe 'apt'
 
 # Add dotdeb repository
 template "/etc/apt/sources.list.d/dotdeb.list" do
@@ -19,17 +20,27 @@ execute "curl -s http://www.dotdeb.org/dotdeb.gpg | apt-key add -" do
   not_if "apt-key export 'Dotdeb'"
 end
 
-include_recipe 'apt'
-
 execute "apt-get update" do
   action :nothing
 end
 
 # Install required package
-%w{openssl libssl-dev locales-all zip unzip ruby1.9.1-dev libxslt1-dev libxslt1.1 swig aspell python-lucene}.each do |pkg|
-  package pkg do
+%w{
+  openssl
+  libssl-dev
+  locales-all
+  zip
+  unzip
+  ruby1.9.1-full
+  libxslt1-dev
+  swig
+  aspell
+}.each do |pkg|
+
+  r = package pkg do
     action :install
   end
+  r.run_action(:install)
 end
 
 # Install Aspell dictionnary
@@ -88,6 +99,8 @@ git "pootle" do
   reference "master"
 end
 
+# Todo Set correct permissions in pootle directory
+
 directory node['pootle']['pootle_po_root'] do
   owner "pootle"
   group "pootle"
@@ -100,6 +113,7 @@ template node['pootle']['pootle_root'] + "/localsettings.py" do
   source "localsettings.py.erb"
   mode "0644"
 end
+
 
 # Todo Deploy Pootle utility scripts
 
