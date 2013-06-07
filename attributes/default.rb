@@ -1,6 +1,3 @@
-# I guess that's used by the "hostname" cookbooks. Please don't do this for typo3.org infrastructure
-default['set_fqdn'] = 'translation.typo3.org'
-
 default['pootle']['db_user'] = 't3o_translation'
 default['pootle']['db_name'] = 't3o_pootle'
 

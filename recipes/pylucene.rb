@@ -5,39 +5,57 @@
 # Copyright 2012, ttree ltd
 #
 
-# java 5 ?
-%w{sun-java5-jdk g++ python-dev subversion jcc ant make}.each do |pkg|
-  package pkg
+include_recipe "build-essential"
+include_recipe "java"
+
+# openjdk-7-jdk
+
+%w{
+g++
+python-dev
+jcc
+ant
+subversion
+}.each do |pkg|
+  package pkg do
+    action :install
+  end
 end
 
-remote_file "/usr/local/src/pylucene-2.9.4-1-src.tar.gz" do
-  # could make this an attribute
-  source "http://apache.mirror.testserver.li//lucene/pylucene/pylucene-2.9.4-1-src.tar.gz"
-  action :create_if_missing
-  notifies :b
+ark "pylucene" do
+  path "/usr/local/src/"
+  # make this an attribute
+  url "http://apache.mirror.testserver.li//lucene/pylucene/pylucene-2.9.4-1-src.tar.gz"
+  action :put
 end
 
-# you could/should refactor this a bit
-# - split up into jcc and pylucene
-# - run only if there is work to do, so either add a not_if { ::File.exists?(/usr/local/src/jcc) } or use action :nothing plus a notification of the above resource
-# - use the link resource instead of `ln`
-# - use the scm subversion provider (and remove `package subversion` above)
+subversion "pylucene-jcc" do
+  repository "http://svn.apache.org/repos/asf/lucene/pylucene/trunk/jcc"
+  destination "/usr/local/src/jcc"
+  action :checkout
+#  notifies :run, "execute[patch-package-distribute]", :immediately
+  notifies :run, "execute[jcc-setup-build]", :immediately
+  notifies :run, "execute[jcc-setup-install]", :immediately
+end
 
-# I hope to find time the next days to give this a try
-bash "install pylucene" do
-  cwd Chef::Config[:file_cache_path]
-  code <<-EOH
-    cd /usr/local/src
-    svn co http://svn.apache.org/repos/asf/lucene/pylucene/trunk/jcc jcc
-    cd jcc
-    ln -s /usr/lib/jvm/java-6-sun /usr/lib/jvm/java-1.5.0-sun
-    patch -d /usr/local/lib/python2.6/dist-packages/distribute-0.6.28-py2.6.egg -Nup0 < /usr/local/src/jcc/jcc/patches/patch.43.0.6c7
-    JCC_JDK="/usr/lib/jvm/java-6-sun" python setup.py build
-    JCC_JDK="/usr/lib/jvm/java-6-sun" python setup.py install
-    
-    cd /usr/local/src
-    tar xzvf pylucene-2.9.4-1-src.tar.gz
-    cd pylucene-2.9.4-1/
-    pushd jcc/
-  EOH
+# ouch.. that's very bad... is there no way around?
+#execute "patch-package-distribute" do
+#  command "patch -d /usr/local/lib/python2.6/dist-packages/distribute-0.6.28-py2.6.egg -Nup0 < /usr/local/src/jcc/jcc/patches/patch.43.0.6c7"
+#  action :nothing
+#end
+
+execute "jcc-setup-build" do
+  command "python setup.py build"
+  cwd "/usr/local/src/jcc"
+  # environment({ "JCC_JDK" => "/usr/lib/jvm/java-7-openjdk-amd64" })
+  environment({ "JCC_JDK" => node[:java][:java_home] })
+  action :nothing
+end
+
+execute "jcc-setup-install" do
+  command "python setup.py install"
+  cwd "/usr/local/src/jcc"
+  # environment({ "JCC_JDK" => "/usr/lib/jvm/java-7-openjdk-amd64" })
+  environment({ "JCC_JDK" => node[:java][:java_home] })
+  action :nothing
 end
